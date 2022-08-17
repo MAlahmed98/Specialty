@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import {
     View, StyleSheet, ScrollView, ImageBackground, Dimensions, Image, Text, Button, TextInput,
-    TouchableWithoutFeedback, Keyboard, Alert , ToastAndroid,Platform,AlertIOS, checbox
+    TouchableWithoutFeedback, Keyboard, Alert , ToastAndroid,Platform,AlertIOS
 } from 'react-native'
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from './config';
@@ -10,22 +10,30 @@ import {CheckBox} from 'react-native-elements';
 
 
 const SpecialtyForm = () => {
-
+    //states for the check boxes
     const [Canapees, setCanapees] = useState(false)
     const [Sweets, setSweets] = useState(false)
     const [FamilyLaunch, setFamilyLaunch] = useState(false)
     const [events, setEvents] = useState(false)
 
-
+    //show us that the upload is done
     const showToast = () => {
         console.log('Done and done');
-        if (Platform.OS === 'android') {
-         ToastAndroid.show("Thank you!", ToastAndroid.SHORT);
-        } 
-        else {
-        AlertIOS.alert("Thank you!");
-        }
+        Alert.alert('Message', 'Thank you!', [
+            {
+                text: 'ok'
+            }
+        ])
     };
+
+    //clear check boxes
+    const clearCheckBoxes = () => {
+        setCanapees(false);
+        setSweets(false);
+        setFamilyLaunch(false);
+        setEvents(false);
+    }
+
 
     return (
         // Container start
@@ -54,12 +62,57 @@ const SpecialtyForm = () => {
                     <Formik
                     initialValues={{name: '',phone: '', email: '', location: '', dateAndTime: '' }}
                     onSubmit={(values, actions) => {
-                        console.log('Canapees :' + Canapees.toString());
-                        console.log('Sweets :' + Sweets.toString());
-                        console.log('Family Lanuch :' + FamilyLaunch.toString());
-                        console.log('Events :' + events.toString());
 
-                        actions.resetForm();
+                        //this will upload our form to the data base
+                        const create = () => {
+                            addDoc(collection(db, "Special"), {
+                                name: values.name,
+                                phone: values.phone,
+                                email: values.email,
+                                location: values.location,
+                                dateAndTime: values.dateAndTime,
+                                Canapess: Canapees.toString(),
+                                Sweet: Sweets.toString(),
+                                FamilyLunch: FamilyLaunch.toString(),
+                                events: events.toString(),
+                                CreatedAt: serverTimestamp()
+                            }).catch((error) => {
+                                console.log(error);
+                            });;
+                            showToast();
+                            clearCheckBoxes();
+                            actions.resetForm();
+                        }
+                        //this will check if one of the text boxes is not filled
+                        if(!values.name.trim()||!values.phone.trim()||!values.email.trim()||!values.location.trim()||!values.dateAndTime.trim()){
+                            Alert.alert(
+                                'Oops!!',
+                                'Please fill all the feilds',
+                                [
+                                { text: 'OK' },
+                                ],
+                                { cancelable: false }
+                            );
+                            return
+                        }
+                        else{
+                            //confirmation to upload the form
+                            Alert.alert(
+                                'Details',
+                                'Are you sure you want to submit ?',
+                                [
+                                  { text: 'Yes', onPress: () => create() },
+                                  {
+                                    text: 'No',
+                                    
+                                    style: 'cancel',
+                                  },
+                                ],
+                                { cancelable: false }
+                                //clicking out side of alert will not cancel
+                            );
+                        }
+
                     }}
                     >
                     {(formProbs) => (
@@ -115,28 +168,23 @@ const SpecialtyForm = () => {
                                     title="Canapees"
                                     checked={Canapees}
                                     onPress={() => setCanapees(!Canapees)}
-                                    
                                 />
                                 <CheckBox
                                     title="Sweets"
                                     checked={Sweets}
                                     onPress={() => setSweets(!Sweets)}
-                                    
                                 />
                                 <CheckBox
                                     title="Family Launch"
                                     checked={FamilyLaunch}
                                     onPress={() => setFamilyLaunch(!FamilyLaunch)}
-                                    
                                 />
                                 <CheckBox
                                     title="Events"
                                     checked={events}
                                     onPress={() => setEvents(!events)}
-                                    
                                 />
                             </View>
-       
 
                             <View style={styles.button}>
                                 <Button  
