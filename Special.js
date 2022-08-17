@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import {
     View, StyleSheet, ScrollView, ImageBackground, Dimensions, Image, Text, Button, TextInput,
-    TouchableWithoutFeedback, Keyboard, Alert , ToastAndroid,Platform,AlertIOS
+    TouchableWithoutFeedback, Keyboard, Alert , KeyboardAvoidingView
 } from 'react-native'
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from './config';
 import {Formik} from 'formik';
 import {CheckBox} from 'react-native-elements';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 
 const SpecialtyForm = () => {
@@ -37,7 +38,8 @@ const SpecialtyForm = () => {
 
     return (
         // Container start
-        <ScrollView style={{ flex: 1, backgroundColor: '#ffffff' }}
+        <KeyboardAwareScrollView style={{ flex:1 }}>
+        <ScrollView style={{backgroundColor: '#ffffff' }}
             showsVerticalScrollIndicator={false}>
             <ImageBackground source={require('./images/backgorund.jpg')}
                 style={{ height: Dimensions.get('window').height / 2.5 }}>
@@ -57,7 +59,6 @@ const SpecialtyForm = () => {
             </View>
 
             {/* Form */}
-            <View>
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <Formik
                     initialValues={{name: '',phone: '', email: '', location: '', dateAndTime: '', instructions: '', notes: ''}}
@@ -188,10 +189,10 @@ const SpecialtyForm = () => {
                                 />
                             </View>
 
-                            <Text style={styles.title}>Special Intructions</Text>
+                            <Text style={styles.title}>Special Instructions</Text>
                             <TextInput
                                 style={styles.Textinput}
-                                placeholder='Special Intructions'
+                                placeholder='Special Instructions'
                                 onChangeText={formProbs.handleChange('instructions')}
                                 value={formProbs.values.instructions}
                             />
@@ -216,8 +217,9 @@ const SpecialtyForm = () => {
                     )}
                     </Formik>
                 </TouchableWithoutFeedback>
-            </View>
+            
         </ScrollView>
+        </KeyboardAwareScrollView>
     )
 }
 

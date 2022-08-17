@@ -21,6 +21,7 @@
     "react-native": "0.69.4",
     "react-native-date-picker": "^4.2.5",
     "react-native-elements": "^3.4.2",
+    "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-toast-message": "^2.1.5",
     "react-navigation": "^4.4.4"
   },
