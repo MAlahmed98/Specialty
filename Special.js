@@ -60,7 +60,7 @@ const SpecialtyForm = () => {
             <View>
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <Formik
-                    initialValues={{name: '',phone: '', email: '', location: '', dateAndTime: '' }}
+                    initialValues={{name: '',phone: '', email: '', location: '', dateAndTime: '', instructions: '', notes: ''}}
                     onSubmit={(values, actions) => {
 
                         //this will upload our form to the data base
@@ -75,7 +75,9 @@ const SpecialtyForm = () => {
                                 Sweet: Sweets.toString(),
                                 FamilyLunch: FamilyLaunch.toString(),
                                 events: events.toString(),
-                                CreatedAt: serverTimestamp()
+                                CreatedAt: serverTimestamp(),
+                                instructions: values.instructions,
+                                notes: values.notes
                             }).catch((error) => {
                                 console.log(error);
                             });;
@@ -185,6 +187,22 @@ const SpecialtyForm = () => {
                                     onPress={() => setEvents(!events)}
                                 />
                             </View>
+
+                            <Text style={styles.title}>Special Intruction</Text>
+                            <TextInput
+                                style={styles.Textinput}
+                                placeholder='Special Intructions'
+                                onChangeText={formProbs.handleChange('instructions')}
+                                value={formProbs.values.instructions}
+                            />
+
+                            <Text style={styles.title}>Customer notes</Text>
+                            <TextInput
+                                style={styles.Textinput}
+                                placeholder='notes'
+                                onChangeText={formProbs.handleChange('notes')}
+                                value={formProbs.values.notes}
+                            />
 
                             <View style={styles.button}>
                                 <Button  
