@@ -188,7 +188,7 @@ const SpecialtyForm = () => {
                                 />
                             </View>
 
-                            <Text style={styles.title}>Special Intruction</Text>
+                            <Text style={styles.title}>Special Intructions</Text>
                             <TextInput
                                 style={styles.Textinput}
                                 placeholder='Special Intructions'
