@@ -1,16 +1,45 @@
 import React, { useState } from 'react'
 import {
     View, StyleSheet, ScrollView, ImageBackground, Dimensions, Image, Text, Button, TextInput,
-    TouchableWithoutFeedback, Keyboard, Alert , KeyboardAvoidingView
+    TouchableWithoutFeedback, Keyboard, Alert
 } from 'react-native'
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from './config';
 import {Formik} from 'formik';
 import {CheckBox} from 'react-native-elements';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 
 const SpecialtyForm = () => {
+
+    //for date time picker
+    const [date, setDate] = useState(new Date());
+    const [mode, setMode] = useState('date');
+    const [show, setShow] = useState(false);
+    const [text, setText] = useState('Empty');
+
+    const onChange1 = (event, SelectDate) => {
+        const currentDate = SelectDate || date;
+        setShow(Platform.OS === 'ios');
+        setDate(currentDate);
+
+        let tempDate = new Date(currentDate);
+        let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear();
+        let fTime = tempDate.getHours() + ' : ' + tempDate.getMinutes();
+        setText('Date :' + fDate + ', Time: ' + fTime);
+        console.log(text);
+    }
+
+    const showMode = (currentmode) => {
+        setShow(true);
+        setMode(currentmode);
+    }
+
+
+
+
+
     //states for the check boxes
     const [Canapees, setCanapees] = useState(false)
     const [Sweets, setSweets] = useState(false)
@@ -71,7 +100,7 @@ const SpecialtyForm = () => {
                                 phone: values.phone,
                                 email: values.email,
                                 location: values.location,
-                                dateAndTime: values.dateAndTime,
+                                dateAndTime: text,
                                 Canapess: Canapees.toString(),
                                 Sweet: Sweets.toString(),
                                 FamilyLunch: FamilyLaunch.toString(),
@@ -87,7 +116,7 @@ const SpecialtyForm = () => {
                             actions.resetForm();
                         }
                         //this will check if one of the text boxes is not filled
-                        if(!values.name.trim()||!values.phone.trim()||!values.email.trim()||!values.location.trim()||!values.dateAndTime.trim()){
+                        if(!values.name.trim()||!values.phone.trim()||!values.email.trim()||!values.location.trim()||!text){
                             Alert.alert(
                                 'Oops!!',
                                 'Please fill all the feilds',
@@ -161,8 +190,46 @@ const SpecialtyForm = () => {
                                 style={styles.Textinput}
                                 placeholder='Date and Time'
                                 onChangeText={formProbs.handleChange('dateAndTime')}
-                                value={formProbs.values.dateAndTime}
+                                value={text}
+                                editable={false}
                             />
+                            <View style={styles.DateTimeinput}>
+                                {/* <Button color='#fff' title='pick a date' onPress={() => showMode('date')} /> */}
+                                <Image style={styles.dateTime} source={require('./images/date.png')} />
+                                <DateTimePicker 
+                                    style={styles.dateTimeSetting}
+                                    testID='dateTimePicker'
+                                    value={date}
+                                    mode='date'
+                                    display='default'
+                                    onChange={onChange1}
+                                />
+                                {/* <Button color='#fff' title='pick a Time' onPress={() => showMode('time')}/> */}
+                                <Image style={styles.dateTime} source={require('./images/time.png')} />
+                                <DateTimePicker 
+                                        style={styles.dateTimeSetting}
+                                        testID='dateTimePicker'
+                                        value={date}
+                                        mode='time'
+                                        is24Hour={true}
+                                        display='clock'
+                                        onChange={onChange1}
+                                />
+                            </View>
+                            {/* <View style={styles.Textinput}>
+                                {show && (
+                                    <DateTimePicker 
+                                        style={styles.dateTime}
+                                        testID='dateTimePicker'
+                                        value={date}
+                                        mode={mode}
+                                        is24Hour={true}
+                                        display='default'
+                                        onChange={onChange1}
+                                    />
+                                )}
+                            </View> */}
+                            
 
                             {/* ever heard of jack in the box? well here is the checkboxes, they're not formik, just ol plain checkboxes*/}
                             <View style={styles.specialty}>
@@ -268,6 +335,29 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         padding: 10,
         borderRadius: 10,
+    },
+    dateTime: {
+        height: 40,
+        width: 40,
+        borderRadius: 10,
+        marginLeft: 20
+        
+    },
+    dateTimeSetting: {
+        height: 40,
+        width: 100,
+        borderRadius: 10,
+        
+    },
+    DateTimeinput: {
+        flex:1,
+        borderColor: '#c4c4b4',
+        bottom: 75,
+        marginBottom: 30,
+        marginHorizontal: 20,
+        padding: 10,
+        fontSize: 18,
+        flexDirection: 'row',
     },
 })
 
