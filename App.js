@@ -1,9 +1,19 @@
-import React from 'react';
-import SpecialtyForm from './Special'
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import SpecialtyForm from './pages/Special'
+import Home from './pages/home';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <SpecialtyForm />
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen options={{headerShown: false}} name="Home" component={Home} headerMode='fakse'/>
+        <Stack.Screen name="SpecialtyForm" component={SpecialtyForm} />
+      </Stack.Navigator>
+  </NavigationContainer>
   );
-}
+} 
 

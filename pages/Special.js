@@ -4,14 +4,14 @@ import {
     TouchableWithoutFeedback, Keyboard, Alert
 } from 'react-native'
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { db } from './config';
+import { db } from '../config';
 import {Formik} from 'formik';
 import {CheckBox} from 'react-native-elements';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 
-const SpecialtyForm = () => {
+const SpecialtyForm = ({ navigation }) => {
 
     //for date time picker
     const [date, setDate] = useState(new Date());
@@ -35,9 +35,6 @@ const SpecialtyForm = () => {
         setShow(true);
         setMode(currentmode);
     }
-
-
-
 
 
     //states for the check boxes
@@ -64,16 +61,15 @@ const SpecialtyForm = () => {
         setEvents(false);
     }
 
-
     return (
         // Container start
         <KeyboardAwareScrollView style={{ flex:1 }}>
         <ScrollView style={{backgroundColor: '#ffffff' }}
             showsVerticalScrollIndicator={false}>
-            <ImageBackground source={require('./images/backgorund.jpg')}
+            <ImageBackground source={require('../images/backgorund.jpg')}
                 style={{ height: Dimensions.get('window').height / 2.5 }}>
                 <View>
-                    <Image source={require('./images/training.png')}
+                    <Image source={require('../images/training.png')}
                         style={{ width: 350, height: 350, marginLeft: 30, marginHorizontal: 50 }}></Image>
                 </View>
             </ImageBackground>
@@ -195,7 +191,7 @@ const SpecialtyForm = () => {
                             />
                             <View style={styles.DateTimeinput}>
                                 {/* <Button color='#fff' title='pick a date' onPress={() => showMode('date')} /> */}
-                                <Image style={styles.dateTime} source={require('./images/date.png')} />
+                                <Image style={styles.dateTime} source={require('../images/date.png')} />
                                 <DateTimePicker 
                                     style={styles.dateTimeSetting}
                                     testID='dateTimePicker'
@@ -205,7 +201,7 @@ const SpecialtyForm = () => {
                                     onChange={onChange1}
                                 />
                                 {/* <Button color='#fff' title='pick a Time' onPress={() => showMode('time')}/> */}
-                                <Image style={styles.dateTime} source={require('./images/time.png')} />
+                                <Image style={styles.dateTime} source={require('../images/time.png')} />
                                 <DateTimePicker 
                                         style={styles.dateTimeSetting}
                                         testID='dateTimePicker'
@@ -275,7 +271,7 @@ const SpecialtyForm = () => {
                             <View style={styles.button}>
                                 <Button  
                                     title='Submit' 
-                                    color='#fff'
+                                    color={Platform.select({ios:'#fff' , android:'#3c6a3d'})}
                                     onPress={formProbs.handleSubmit}>
                                     Submit
                                 </Button>
