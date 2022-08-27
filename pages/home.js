@@ -1,15 +1,8 @@
 import React from 'react';
 import {
-    View, StyleSheet, ScrollView, ImageBackground, Dimensions, Image, Text, Button, TextInput,
-    TouchableWithoutFeedback, Keyboard, Alert
+    View, StyleSheet, ScrollView, ImageBackground, Dimensions, Image, Text, Button
 } from 'react-native'
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { db } from '../config';
-import {Formik} from 'formik';
-import {CheckBox} from 'react-native-elements';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import SpecialtyForm from './Special';
 
 const Home = ({ navigation }) => {
 
@@ -37,7 +30,7 @@ const Home = ({ navigation }) => {
             <View style={styles.button}>
                 <Button
                     title="Go to Specialty List"
-                    color='#fff'
+                    color={Platform.select({ios:'#fff' , android:'#3c6a3d'})}
                     onPress={() =>
                     navigation.navigate('SpecialtyForm')}
                 />
@@ -56,25 +49,6 @@ const styles = StyleSheet.create({
         borderTopStartRadius: 60,
         borderTopEndRadius: 60,
     },
-    Textinput: {
-        borderWidth: 1,
-        borderColor: '#c4c4b4',
-        bottom: 75,
-        marginBottom: 10,
-        marginHorizontal: 20,
-        padding: 10,
-        fontSize: 18,
-        borderRadius: 10
-    },
-    title:{
-      bottom: 75,
-      marginBottom: 10,
-      marginHorizontal: 10,
-      padding: 10,
-      paddingBottom: 1,
-      fontSize: 18,
-      borderRadius: 10
-    },
     button: {
         elevation: 5,
         backgroundColor: '#3c6a3d',
@@ -83,39 +57,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 3,
         marginHorizontal: 40,
         bottom: 65
-    },
-    specialty:{
-        borderWidth: 1,
-        borderColor: '#c4c4b4',
-        bottom: 75,
-        marginBottom: 10,
-        marginHorizontal: 20,
-        padding: 10,
-        borderRadius: 10,
-    },
-    dateTime: {
-        height: 40,
-        width: 40,
-        borderRadius: 10,
-        marginLeft: 20
-        
-    },
-    dateTimeSetting: {
-        height: 40,
-        width: 100,
-        borderRadius: 10,
-        
-    },
-    DateTimeinput: {
-        flex:1,
-        borderColor: '#c4c4b4',
-        bottom: 75,
-        marginBottom: 30,
-        marginHorizontal: 20,
-        padding: 10,
-        fontSize: 18,
-        flexDirection: 'row',
-    },
+    }
 })
 
 export default Home;
