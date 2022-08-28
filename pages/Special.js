@@ -64,7 +64,6 @@ const SpecialtyForm = ({ navigation }) => {
             if(Platform.OS == 'ios'){
                 return(
                         <View style={styles.DateTimeinput}>
-                            <Button color='#fff' title='pick a date' onPress={() => showMode('date')} />
                             <Image style={styles.dateTime} source={require('../images/date.png')} />
                             <DateTimePicker
                                 style={styles.dateTimeSetting}
@@ -304,6 +303,7 @@ const SpecialtyForm = ({ navigation }) => {
                             value={text}
                             editable={false} 
                             />
+
                             <DAT />
 
                             <View style={styles.specialty}>
@@ -448,6 +448,7 @@ const styles = StyleSheet.create({
         height: 40,
         width: 40,
         borderRadius: 10,
+        marginLeft: 20,
     },
     dateTimeSetting: {
         height: 40,
@@ -462,6 +463,7 @@ const styles = StyleSheet.create({
         padding: 10,
         fontSize: 18,
         flexDirection: 'row',
+        marginHorizontal: 20,
     },
 })
 
