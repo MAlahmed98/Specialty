@@ -156,10 +156,13 @@ const SpecialtyForm = ({ navigation }) => {
         setMode(currentmode);
     }
     //states for the check boxes
-    const [Canapees, setCanapees] = useState(false)
-    const [Sweets, setSweets] = useState(false)
-    const [FamilyLaunch, setFamilyLaunch] = useState(false)
-    const [events, setEvents] = useState(false)
+    const [Canapees, setCanapees] = useState(false);
+    const [Sweets, setSweets] = useState(false);
+    const [FamilyLaunch, setFamilyLaunch] = useState(false);
+    const [events, setEvents] = useState(false);
+    const [Breakfast, setBreakfast] = useState(false);
+    const [Launch, setLaunch] = useState(false);
+    const [Dinner, setDinner] = useState(false);
 
     //show us that the upload is done
     const showToast = () => {
@@ -177,6 +180,9 @@ const SpecialtyForm = ({ navigation }) => {
         setSweets(false);
         setFamilyLaunch(false);
         setEvents(false);
+        setBreakfast(false);
+        setLaunch(false);
+        setDinner(false);
     }
 
     return (
@@ -203,7 +209,7 @@ const SpecialtyForm = ({ navigation }) => {
             {/* Form */}
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <Formik
-                    initialValues={{name: '',phone: '', email: '', location: '', dateAndTime: '', instructions: '', notes: ''}}
+                    initialValues={{name: '',phone: '', email: '', location: '', dateAndTime: '', people: '',  eventType: '', instructions: '', notes: ''}}
                     onSubmit={(values, actions) => {
                         //this will upload our form to the database
                         const create = () => {
@@ -212,11 +218,16 @@ const SpecialtyForm = ({ navigation }) => {
                                 phone: values.phone,
                                 email: values.email,
                                 location: values.location,
-                                // dateAndTime: text,
+                                dateAndTime: text,
+                                people: values.people,
+                                eventType: values.eventType, 
                                 Canapess: Canapees.toString(),
                                 Sweet: Sweets.toString(),
                                 FamilyLunch: FamilyLaunch.toString(),
                                 events: events.toString(),
+                                Breakfast: Breakfast.toString(),
+                                Launch: Launch.toString(),
+                                Dinner: Dinner.toString(),
                                 CreatedAt: serverTimestamp(),
                                 instructions: values.instructions,
                                 notes: values.notes
@@ -286,7 +297,23 @@ const SpecialtyForm = ({ navigation }) => {
                                 onChangeText={formProbs.handleChange('email')}
                                 value={formProbs.values.email}
                             />
+                            <Text style={styles.title}>Event Type</Text>
+                            <TextInput
+                                style={styles.Textinput}
+                                placeholder='Event Type'
+                                onChangeText={formProbs.handleChange('eventType')}
+                                value={formProbs.values.eventType}
+                            />
 
+                            <Text style={styles.title}>Number of people</Text>
+                            <TextInput
+                                style={styles.Textinput}
+                                keyboardType = 'numeric'
+                                placeholder='Enter the number of people'
+                                onChangeText={formProbs.handleChange('people')}
+                                value={formProbs.values.people}
+                                maxLength={8}
+                            />
                             {/* a location service would be nice at this point, but for now we'll just let it a text inbox */}
                             <Text style={styles.title}>Event Location</Text>
                             <TextInput
@@ -327,6 +354,25 @@ const SpecialtyForm = ({ navigation }) => {
                                     title="Events"
                                     checked={events}
                                     onPress={() => setEvents(!events)}
+                                />   
+                            </View>
+
+                            <View style={styles.specialty}>
+                                <Text style={{ fontSize:20, fontWeight: 'bold', marginBottom: 10 }}>Catering type</Text>
+                                <CheckBox
+                                    title="Breakfast"
+                                    checked={Breakfast}
+                                    onPress={() => setBreakfast(!Breakfast)}
+                                />
+                                <CheckBox
+                                    title="Lunch"
+                                    checked={Launch}
+                                    onPress={() => setLaunch(!Launch)}
+                                />
+                                 <CheckBox
+                                    title="Dinner"
+                                    checked={Dinner}
+                                    onPress={() => setDinner(!Dinner)}
                                 />
                             </View>
 
