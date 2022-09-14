@@ -42,6 +42,14 @@ const Home = ({ navigation }) => {
                         navigation.navigate('MonthlyMeal')}
                     />
                 </View>
+                <View style={styles.button}>
+                    <Button
+                        title="Categories"
+                        color={Platform.select({ios:'#fff' , android:'#3c6a3d'})}
+                        onPress={() =>
+                        navigation.navigate('Categories')}
+                    />
+                </View>
             </ScrollView>
         </KeyboardAwareScrollView> 
     )

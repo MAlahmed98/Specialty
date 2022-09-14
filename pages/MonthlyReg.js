@@ -1,16 +1,12 @@
 import React, { useState } from 'react'
 import {
-    View, StyleSheet, ScrollView, ImageBackground, Dimensions, Image, Text, Button, TextInput,
-    TouchableWithoutFeedback, Keyboard, Alert, TouchableOpacity
+    View, StyleSheet, ScrollView, Text, Button, TextInput,
+    TouchableWithoutFeedback, Keyboard, Alert
 } from 'react-native'
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from '../config';
 import {Formik} from 'formik';
-import {CheckBox} from 'react-native-elements';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import DateTimePicker from '@react-native-community/datetimepicker'; 
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const MonthlyForm = ({ navigation, route }) => {
 
